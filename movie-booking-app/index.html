@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShowTime — Book Tickets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+  <div class="bg-gradient" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="logo" id="logo-home">
+        <span class="logo-mark">S</span>
+        <span class="logo-text">Show<span class="accent">Time</span></span>
+      </a>
+      <nav class="header-nav" aria-label="Main">
+        <button type="button" class="nav-link-btn" id="nav-home">Home</button>
+        <a href="social.html" class="nav-link-btn link-as-btn">Social</a>
+        <button type="button" class="nav-link-btn" id="nav-bookings">My bookings</button>
+        <span class="header-user" id="header-user"></span>
+        <button type="button" class="nav-link-btn nav-sign-out" id="btn-sign-out">Sign out</button>
+      </nav>
+      <div class="header-tools">
+        <button type="button" class="btn-icon" id="btn-theme" title="Toggle dark mode" aria-label="Toggle theme">
+          <span class="theme-icon moon">☾</span>
+          <span class="theme-icon sun">☀</span>
+        </button>
+        <button type="button" class="btn-icon btn-mic" id="btn-voice" title="Voice commands" aria-label="Start voice command">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="hero">
+      <div class="container">
+        <p class="hero-eyebrow">Now showing across India</p>
+        <h1 class="hero-title">Book seats. <span class="accent">Feel the big screen.</span></h1>
+        <p class="hero-sub">Tamil · Hindi · Telugu · Malayalam · English — one checkout, zero backend.</p>
+      </div>
+    </section>
+
+    <section class="toolbar container" aria-label="Search and filters">
+      <div class="search-wrap">
+        <label for="search-input" class="visually-hidden">Search movies</label>
+        <input type="search" id="search-input" class="input-search" placeholder="Search by title…" autocomplete="off" />
+      </div>
+      <div class="filters">
+        <label class="filter-label">
+          <span>Language</span>
+          <select id="filter-language" class="select">
+            <option value="">All languages</option>
+          </select>
+        </label>
+        <label class="filter-label">
+          <span>Genre</span>
+          <select id="filter-genre" class="select">
+            <option value="">All genres</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="dashboard-strip container" aria-label="Quick links">
+      <p class="dashboard-welcome">Welcome back, <strong id="dash-name"></strong></p>
+      <div class="dashboard-links">
+        <a class="dashboard-link" href="#movie-grid">Movies</a>
+        <a class="dashboard-link" href="social.html">Social</a>
+        <button type="button" class="dashboard-link link-as-btn" id="nav-bookings-dash">My bookings</button>
+      </div>
+    </section>
+
+    <p class="voice-status container" id="voice-status" role="status" aria-live="polite"></p>
+
+    <section class="container">
+      <h2 class="section-title">Movies</h2>
+      <div id="movie-grid" class="movie-grid"></div>
+    </section>
+
+    <section class="booking-section container" id="booking-panel">
+      <h2 class="section-title">Booking</h2>
+      <p class="booking-hint" id="booking-movie-label">Select a movie from the list to book seats.</p>
+      <div class="booking-form">
+        <label class="field">
+          <span>Your name</span>
+          <input type="text" id="customer-name" class="input" placeholder="Enter your name" autocomplete="name" />
+        </label>
+        <div class="seat-area">
+          <div class="screen-label">SCREEN</div>
+          <div id="seat-map" class="seat-map" aria-label="Seat selection"></div>
+          <div class="seat-legend">
+            <span class="legend-item"><span class="seat-dot seat-dot--vip"></span> VIP</span>
+            <span class="legend-item"><span class="seat-dot seat-dot--premium"></span> Premium</span>
+            <span class="legend-item"><span class="seat-dot seat-dot--regular"></span> Regular</span>
+            <span class="legend-item"><i class="seat-dot available"></i> Available</span>
+            <span class="legend-item"><i class="seat-dot selected"></i> Selected</span>
+            <span class="legend-item"><i class="seat-dot booked"></i> Booked</span>
+          </div>
+          <p class="seat-summary" id="seat-summary">No seats selected · Seats subtotal: ₹0</p>
+        </div>
+        <div class="snacks-block">
+          <h3 class="snacks-heading">Snacks &amp; drinks</h3>
+          <p class="snacks-hint">Add treats before you confirm — totals update live.</p>
+          <div id="snacks-mount"></div>
+        </div>
+        <div class="order-summary" id="order-summary" aria-live="polite"></div>
+        <button type="button" class="btn-primary btn-book" id="btn-book">Book ticket</button>
+      </div>
+    </section>
+
+    <section class="container ticket-section" id="ticket-output" hidden>
+      <h2 class="section-title">Your ticket</h2>
+      <div id="ticket-card" class="ticket-card"></div>
+    </section>
+  </main>
+
+  <div id="bookings-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="bookings-modal-title" hidden>
+    <div class="modal-backdrop" data-close-bookings></div>
+    <div class="modal-panel modal-panel--bookings">
+      <button type="button" class="modal-close" data-close-bookings aria-label="Close">&times;</button>
+      <div class="modal-body bookings-modal-body">
+        <h2 id="bookings-modal-title" class="bookings-modal-heading">My bookings</h2>
+        <p class="bookings-modal-sub">Tickets linked to your account on this device.</p>
+        <div id="bookings-list" class="bookings-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="alert" aria-live="assertive" hidden></div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>ShowTime demo — HTML, CSS &amp; JavaScript only. Bookings stored in your browser.</p>
+    </div>
+  </footer>
+
+  <!-- Serve over http(s) for ES modules & mic: npx serve movie-booking-app -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

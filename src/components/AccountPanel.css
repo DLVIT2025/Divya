@@ -1,0 +1,125 @@
+.account-panel-wrap {
+  position: relative;
+}
+
+.account-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 30px;
+  padding: 6px 14px 6px 6px;
+  cursor: pointer;
+  color: white;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.account-trigger:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateY(-1px);
+}
+
+.account-avatar-chip {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.account-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.chevron {
+  transition: transform 0.2s;
+}
+.chevron.rotated {
+  transform: rotate(180deg);
+}
+
+/* Dropdown */
+.account-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 12px);
+  width: 260px;
+  background: rgba(18, 18, 24, 0.98) !important;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  z-index: 1000;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  background: rgba(138, 43, 226, 0.1);
+}
+
+.dropdown-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.dropdown-header strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.dropdown-header span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+  margin: 4px 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+}
+
+.dropdown-item:hover {
+  background: rgba(138, 43, 226, 0.15);
+  color: #c98cff;
+}
+
+.dropdown-item.logout {
+  color: #ff4444;
+}
+
+.dropdown-item.logout:hover {
+  background: rgba(255, 68, 68, 0.1);
+  color: #ff4444;
+}

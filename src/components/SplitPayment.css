@@ -1,0 +1,350 @@
+.split-payment-container {
+  position: relative;
+  width: 100%;
+}
+
+.btn-split-toggle {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  margin-bottom: 16px;
+}
+
+.btn-split-toggle:hover {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
+  border-color: rgba(99, 102, 241, 0.5);
+}
+
+.split-payment-modal {
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 12px;
+  margin-top: 12px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.split-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.split-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #fff;
+}
+
+.split-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.total-display {
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(147, 51, 234, 0.2) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-display .label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.total-display .amount {
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.split-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.split-section h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.friends-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 8px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.no-friends {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  padding: 12px;
+  margin: 0;
+}
+
+.friend-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: rgba(99, 102, 241, 0.08);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.friend-option:hover {
+  background: rgba(99, 102, 241, 0.15);
+}
+
+.friend-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.friend-checkbox input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.friend-checkbox span {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.remove-btn {
+  background: rgba(239, 68, 68, 0.2);
+  border: none;
+  color: #ef4444;
+  padding: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.remove-btn:hover {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+.split-amounts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.split-amounts h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 8px 0;
+}
+
+.amount-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.amount-item:last-of-type {
+  border-bottom: none;
+}
+
+.amount-item.your-share {
+  background: rgba(22, 163, 74, 0.1);
+  padding: 8px;
+  border-radius: 6px;
+  border-bottom: none;
+  margin-bottom: 8px;
+}
+
+.amount-item .name {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.amount-item .amount {
+  font-size: 14px;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.amount-input-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 6px;
+  padding: 6px;
+}
+
+.amount-input-group span {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+}
+
+.amount-input-group input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  width: 60px;
+  padding: 4px;
+  font-size: 13px;
+  text-align: right;
+}
+
+.amount-input-group input:focus {
+  outline: none;
+}
+
+.split-validation {
+  padding: 8px;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 6px;
+  text-align: right;
+}
+
+.split-validation .status {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.split-validation .status.valid {
+  color: #22c55e;
+}
+
+.split-validation .status.invalid {
+  color: #ef4444;
+}
+
+.split-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.split-actions button {
+  padding: 10px 12px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.split-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.split-actions .btn-secondary {
+  background: rgba(99, 102, 241, 0.2);
+  color: #fff;
+}
+
+.split-actions .btn-secondary:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.3);
+}
+
+.split-actions .btn-primary {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: #fff;
+}
+
+.split-actions .btn-primary:hover:not(:disabled) {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+@media (max-width: 768px) {
+  .split-payment-modal {
+    padding: 16px;
+  }
+
+  .split-amounts {
+    padding: 12px;
+  }
+
+  .split-actions {
+    grid-template-columns: 1fr;
+  }
+}

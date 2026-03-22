@@ -1,0 +1,102 @@
+.movies-page {
+    padding-top: 40px;
+    padding-bottom: 80px;
+}
+
+.movies-layout {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.filters-sidebar {
+    width: 250px;
+    padding: 24px;
+    position: sticky;
+    top: 100px;
+}
+
+.filters-sidebar h3 {
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 12px;
+}
+
+.filter-group {
+    margin-bottom: 30px;
+}
+
+.filter-group h4 {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-btn {
+    text-align: left;
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: #e0e0e0;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.filter-btn.active {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+.movies-results {
+    flex: 1;
+}
+
+.results-header {
+    margin-bottom: 24px;
+}
+
+.results-header h2 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.movie-lang {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 900px) {
+    .movies-layout {
+        flex-direction: column;
+    }
+
+    .filters-sidebar {
+        width: 100%;
+        position: relative;
+        top: 0;
+    }
+
+    .filter-options {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}

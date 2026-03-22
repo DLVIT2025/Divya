@@ -1,0 +1,24 @@
+/* Reusing styles from Login.css */
+.signup-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    padding: 40px 20px;
+    background: radial-gradient(circle at center, rgba(255, 51, 102, 0.1) 0%, transparent 50%),
+        url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=2000') center/cover no-repeat;
+}
+
+.error-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 71, 87, 0.2);
+    border: 1px solid #ff4757;
+    color: #ff4757;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+    text-align: left;
+}
