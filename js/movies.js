@@ -1,19 +1,42 @@
 import { moviesData } from './data.js';
 import { openMovieDetail } from './movieDetail.js';
 
-let currentMovies = [...moviesData];
+let currentMovies = [];
+let allFetchedMovies = [];
 let searchQuery = '';
 let langFilter = 'All';
 let genreFilter = 'All';
 
 export const renderMovies = () => {
-    // Render trending (first 5)
-    const trendingGrid = document.getElementById('trending-movies');
-    if (trendingGrid) {
-        trendingGrid.innerHTML = moviesData.slice(0, 5).map(m => createMovieCard(m)).join('');
-    }
+    const city = localStorage.getItem('ct_city') || 'Mumbai';
+    fetchMoviesByCity(city);
+};
 
-    // Render all movies
+export const fetchMoviesByCity = async (cityName) => {
+    const grid = document.getElementById('all-movies-grid');
+    const trendingGrid = document.getElementById('trending-movies');
+    
+    if (grid) {
+        grid.innerHTML = '<div class="loader-container"><span class="loader"></span></div>';
+    }
+    
+    let fetchedMovies = [];
+    
+    try {
+        const response = await fetch(`http://localhost:3001/api/movies?city=${encodeURIComponent(cityName)}`);
+        if (!response.ok) throw new Error('API down');
+        fetchedMovies = await response.json();
+    } catch (e) {
+        console.warn('Backend API unavailable. Falling back to static data for city:', cityName);
+        fetchedMovies = moviesData.filter(m => (m.cities || []).some(c => c.toLowerCase() === cityName.toLowerCase()));
+    }
+    
+    allFetchedMovies = fetchedMovies;
+    
+    if (trendingGrid) {
+        trendingGrid.innerHTML = allFetchedMovies.slice(0, 5).map(m => createMovieCard(m)).join('');
+    }
+    
     renderAllMoviesGrid();
     attachMovieClickListeners();
 };
@@ -23,7 +46,7 @@ const renderAllMoviesGrid = () => {
     if (!grid) return;
 
     // Filter logic
-    currentMovies = moviesData.filter(m => {
+    currentMovies = allFetchedMovies.filter(m => {
         const matchesSearch = m.title.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesLang = langFilter === 'All' || m.language === langFilter;
         const matchesGenre = genreFilter === 'All' || m.genre === genreFilter;
@@ -31,7 +54,7 @@ const renderAllMoviesGrid = () => {
     });
 
     if (currentMovies.length === 0) {
-        grid.innerHTML = '<div class="w-100 text-center text-muted" style="grid-column: 1/-1; padding: 3rem;">No movies found matching your criteria.</div>';
+        grid.innerHTML = '<div class="w-100 text-center text-muted" style="grid-column: 1/-1; padding: 3rem;">No movies found matching your criteria in this city.</div>';
     } else {
         grid.innerHTML = currentMovies.map(m => createMovieCard(m)).join('');
     }

@@ -13,6 +13,67 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body class="dark-mode">
+    <!-- City Selection Modal -->
+    <div id="city-modal" class="city-modal-overlay d-flex">
+        <div class="city-modal-content glass-panel animate-scale-in">
+            <h2>Select Your City</h2>
+            <div class="search-bar city-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="city-search-input" placeholder="Search for your city (e.g., Chennai)">
+                <button class="btn btn-outline ml-2" id="detect-location-btn" style="flex-shrink:0;">
+                    <i class="fas fa-location-arrow"></i> Detect
+                </button>
+            </div>
+        <div class="popular-cities mt-4">
+                <h3 class="text-muted text-sm mb-3">Popular Cities</h3>
+                <div class="city-grid">
+                    <div class="city-card" data-city="Mumbai">
+                        <i class="fas fa-city fa-2x mb-2 text-accent"></i>
+                        <span>Mumbai</span>
+                    </div>
+                    <div class="city-card" data-city="Delhi-NCR">
+                        <i class="fas fa-monument fa-2x mb-2 text-accent"></i>
+                        <span>Delhi-NCR</span>
+                    </div>
+                    <div class="city-card" data-city="Bengaluru">
+                        <i class="fas fa-leaf fa-2x mb-2 text-accent"></i>
+                        <span>Bengaluru</span>
+                    </div>
+                    <div class="city-card" data-city="Hyderabad">
+                        <i class="fas fa-gopuram fa-2x mb-2 text-accent"></i>
+                        <span>Hyderabad</span>
+                    </div>
+                    <div class="city-card" data-city="Chandigarh">
+                        <i class="fas fa-road fa-2x mb-2 text-accent"></i>
+                        <span>Chandigarh</span>
+                    </div>
+                    <div class="city-card" data-city="Ahmedabad">
+                        <i class="fas fa-place-of-worship fa-2x mb-2 text-accent"></i>
+                        <span>Ahmedabad</span>
+                    </div>
+                    <div class="city-card" data-city="Chennai">
+                        <i class="fas fa-umbrella-beach fa-2x mb-2 text-accent"></i>
+                        <span>Chennai</span>
+                    </div>
+                    <div class="city-card" data-city="Pune">
+                        <i class="fas fa-fort-awesome fa-2x mb-2 text-accent"></i>
+                        <span>Pune</span>
+                    </div>
+                    <div class="city-card" data-city="Kolkata">
+                        <i class="fas fa-tram fa-2x mb-2 text-accent"></i>
+                        <span>Kolkata</span>
+                    </div>
+                    <div class="city-card" data-city="Kochi">
+                        <i class="fas fa-water fa-2x mb-2 text-accent"></i>
+                        <span>Kochi</span>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="#" class="text-accent text-sm" id="view-all-cities-btn">View All Cities</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Toast Notifications Container -->
     <div id="toast-container"></div>
@@ -22,14 +83,20 @@
         <div class="nav-brand">
             <i class="fas fa-ticket-alt text-accent"></i> CineTicket
         </div>
-        <div class="nav-links">
+        <button class="hamburger-btn icon-btn" id="hamburger-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links" id="nav-links-menu">
             <a href="#" class="nav-link active" data-target="home-section">Home</a>
             <a href="#" class="nav-link" data-target="movies-section">Movies</a>
-            <a href="#" class="nav-link auth-req hidden" data-target="social-section">Community</a>
-            <a href="#" class="nav-link auth-req hidden" data-target="my-tickets-section">My Tickets</a>
-            <a href="#" class="nav-link auth-req hidden" data-target="admin-section">Admin</a>
+            <a href="#" class="nav-link auth-req hidden" data-target="my-account-section">My Account</a>
+            <a href="#" class="nav-link auth-req hidden" id="nav-logout-btn">Logout</a>
         </div>
         <div class="nav-actions">
+            <button id="nav-city-selector" class="btn btn-outline" style="border: none; padding: 0.4rem 0.8rem; font-size: 0.9rem;">
+                <span id="nav-city-name" style="margin-right: 5px;">Select City</span>
+                <i class="fas fa-chevron-down text-sm"></i>
+            </button>
             <button id="voice-btn" class="icon-btn" title="Voice Command">
                 <i class="fas fa-microphone"></i>
             </button>
@@ -40,7 +107,6 @@
             <div id="user-profile-nav" class="user-profile hidden">
                 <div class="avatar" id="nav-avatar">U</div>
                 <span id="nav-username">User</span>
-                <button id="logout-btn" class="icon-btn text-danger" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </div>
     </nav>
@@ -194,13 +260,70 @@
             </div>
         </div>
 
+        <!-- Theatre Selection Section -->
+        <section id="theatres-section" class="page-section hidden">
+            <div class="container animate-fade-in">
+                <div class="booking-header">
+                    <button class="btn btn-outline back-btn" data-target="movies-section"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div>
+                        <h2>Select Theatre & Time</h2>
+                        <h3 id="theatre-movie-title" class="text-accent"></h3>
+                    </div>
+                </div>
+
+                <!-- Booking Steps -->
+                <div class="booking-steps">
+                    <div class="step active" id="step-theatre"><span class="step-num">1</span><span class="step-label">Theatre</span></div>
+                    <div class="step-line"></div>
+                    <div class="step" id="step-people"><span class="step-num">2</span><span class="step-label">People</span></div>
+                    <div class="step-line"></div>
+                    <div class="step" id="step-seats"><span class="step-num">3</span><span class="step-label">Seats</span></div>
+                    <div class="step-line"></div>
+                    <div class="step" id="step-confirm"><span class="step-num">4</span><span class="step-label">Confirm</span></div>
+                </div>
+
+                <div id="theatres-list" class="theatres-list">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- People Count Section -->
+        <section id="people-section" class="page-section hidden">
+            <div class="container animate-fade-in">
+                <div class="booking-header">
+                    <button class="btn btn-outline back-btn" data-target="theatres-section"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div>
+                        <h2>How Many People?</h2>
+                        <p class="text-muted" id="people-movie-info"></p>
+                    </div>
+                </div>
+
+                <div class="people-count-card glass-panel">
+                    <div class="people-icon"><i class="fas fa-users fa-3x text-accent"></i></div>
+                    <h3>Number of Seats</h3>
+                    <p class="text-muted">Choose how many seats you want to book</p>
+                    <div class="people-selector">
+                        <button class="people-btn" id="people-minus"><i class="fas fa-minus"></i></button>
+                        <span class="people-count" id="people-count">1</span>
+                        <button class="people-btn" id="people-plus"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <p class="text-muted text-sm">Maximum 10 seats per booking</p>
+                    <button class="btn btn-primary btn-lg mt-4 w-100" id="people-continue-btn">Continue to Seat Selection</button>
+                </div>
+            </div>
+        </section>
+
         <!-- Seat Selection Section -->
         <section id="seats-section" class="page-section hidden">
             <div class="container animate-fade-in">
                 <div class="booking-header">
-                    <button class="btn btn-outline back-btn" data-target="movies-section"><i class="fas fa-arrow-left"></i> Back</button>
-                    <h2>Select Seats</h2>
-                    <h3 id="seat-movie-title" class="text-accent">Movie Title</h3>
+                    <button class="btn btn-outline back-btn" data-target="people-section"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div>
+                        <h2>Select Seats</h2>
+                        <h3 id="seat-movie-title" class="text-accent">Movie Title</h3>
+                        <p id="seat-info-sub" class="text-muted text-sm"></p>
+                    </div>
                 </div>
 
                 <div class="seat-legend">
@@ -221,7 +344,7 @@
 
                 <div class="booking-footer glass-panel">
                     <div class="selected-seats-info">
-                        <p>Selected Seats: <span id="selected-seats-count">0</span></p>
+                        <p>Selected Seats: <span id="selected-seats-count">0</span> / <span id="seats-quota">?</span></p>
                         <p class="seat-numbers text-muted" id="selected-seats-list">None</p>
                     </div>
                     <div class="total-info">
@@ -389,29 +512,83 @@
             </div>
         </section>
         
-        <!-- My Tickets Section -->
-        <section id="my-tickets-section" class="page-section hidden">
+        <!-- My Account Section -->
+        <section id="my-account-section" class="page-section hidden">
             <div class="container animate-fade-in">
-                <h2>My Bookings</h2>
+                <h2>My Account</h2>
+                <div class="account-profile glass-panel mb-4" style="padding: 2rem;">
+                    <h3 id="account-name">User Name</h3>
+                    <p class="text-muted" id="account-email">user@example.com</p>
+                </div>
+                <h3>Booking History</h3>
                 <div class="tickets-grid" id="my-tickets-grid">
                     <!-- Populated by JS -->
                 </div>
-            </div>
-        </section>
 
-        <!-- Admin Section -->
-        <section id="admin-section" class="page-section hidden">
-            <div class="container animate-fade-in">
-                <h2>Admin Panel</h2>
-                <div class="glass-panel" style="padding: 2rem; margin-top: 1.5rem;">
-                    <h3>Database Managment</h3>
-                    <p class="text-muted mb-4">Export all booking data from the localStorage database simulation into a structured Excel/CSV format.</p>
-                    <button class="btn btn-primary btn-lg" id="export-csv-btn"><i class="fas fa-file-excel"></i> Download All Bookings (CSV)</button>
+                <h3 class="mt-5">Recent Friends Activity</h3>
+                <div class="friends-activity-list glass-panel mt-3 p-3" id="friends-activity-list">
+                    <p class="text-muted text-sm">No recent activity from friends.</p>
                 </div>
             </div>
         </section>
 
     </main>
+
+    <!-- Club Detail Overlay -->
+    <div id="club-detail-overlay" class="club-detail-overlay hidden">
+        <div class="club-detail-panel glass-panel animate-slide-up">
+            <div class="club-detail-header">
+                <div>
+                    <h2 id="club-detail-name">Club Name</h2>
+                    <p class="text-muted text-sm" id="club-detail-desc"></p>
+                </div>
+                <button class="close-btn" id="close-club-detail"><i class="fas fa-times"></i></button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="club-detail-tabs">
+                <button class="cd-tab active" data-cdtab="cd-discussion">💬 Discussion</button>
+                <button class="cd-tab" data-cdtab="cd-votes">🗳️ Vote</button>
+                <button class="cd-tab" data-cdtab="cd-events">📅 Events</button>
+            </div>
+
+            <!-- Discussion Tab -->
+            <div id="cd-discussion" class="cd-tab-content active">
+                <div class="club-posts-feed" id="club-posts-feed">
+                    <!-- populated by JS -->
+                </div>
+                <div class="club-post-composer glass-panel">
+                    <textarea id="club-post-input" placeholder="Share something with the club…" rows="2"></textarea>
+                    <button class="btn btn-primary" id="club-post-btn"><i class="fas fa-paper-plane"></i> Post</button>
+                </div>
+            </div>
+
+            <!-- Vote Tab -->
+            <div id="cd-votes" class="cd-tab-content hidden">
+                <div id="club-votes-feed"><!-- populated by JS --></div>
+                <div class="vote-creator glass-panel mt-3">
+                    <h4>Create a Movie Poll</h4>
+                    <input type="text" id="vote-question" placeholder="Question (e.g. What should we watch?)">
+                    <input type="text" id="vote-opt1" placeholder="Option 1 (movie name)">
+                    <input type="text" id="vote-opt2" placeholder="Option 2 (movie name)">
+                    <input type="text" id="vote-opt3" placeholder="Option 3 (optional)">
+                    <button class="btn btn-primary w-100 mt-2" id="create-vote-btn"><i class="fas fa-poll"></i> Create Poll</button>
+                </div>
+            </div>
+
+            <!-- Events Tab -->
+            <div id="cd-events" class="cd-tab-content hidden">
+                <div id="club-events-feed"><!-- populated by JS --></div>
+                <div class="event-creator glass-panel mt-3">
+                    <h4>Schedule Watch Event</h4>
+                    <input type="text" id="event-title" placeholder="Event name">
+                    <input type="text" id="event-location" placeholder="Theatre / Location">
+                    <input type="datetime-local" id="event-datetime">
+                    <button class="btn btn-primary w-100 mt-2" id="create-event-btn"><i class="fas fa-calendar-plus"></i> Schedule Event</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Voice Visualizer Overlay -->
     <div id="voice-overlay" class="voice-overlay hidden animate-fade-in">
@@ -430,18 +607,18 @@
     </div>
 
     <!-- Scripts -->
-    <script type="module" src="js/data.js?v=3"></script>
-    <script type="module" src="js/ui.js?v=3"></script>
-    <script type="module" src="js/auth.js?v=3"></script>
-    <script type="module" src="js/movies.js?v=3"></script>
-    <script type="module" src="js/movieDetail.js?v=3"></script>
-    <script type="module" src="js/seats.js?v=3"></script>
-    <script type="module" src="js/snacks.js?v=3"></script>
-    <script type="module" src="js/booking.js?v=3"></script>
-    <script type="module" src="js/qrcode.js?v=3"></script>
-    <script type="module" src="js/voice.js?v=3"></script>
-    <script type="module" src="js/social.js?v=3"></script>
-    <script type="module" src="js/admin.js?v=3"></script>
-    <script type="module" src="js/app.js?v=3"></script>
+    <script type="module" src="js/data.js?v=4"></script>
+    <script type="module" src="js/ui.js?v=4"></script>
+    <script type="module" src="js/auth.js?v=4"></script>
+    <script type="module" src="js/movies.js?v=4"></script>
+    <script type="module" src="js/movieDetail.js?v=4"></script>
+    <script type="module" src="js/theatres.js?v=4"></script>
+    <script type="module" src="js/seats.js?v=4"></script>
+    <script type="module" src="js/snacks.js?v=4"></script>
+    <script type="module" src="js/booking.js?v=4"></script>
+    <script type="module" src="js/qrcode.js?v=4"></script>
+    <script type="module" src="js/voice.js?v=4"></script>
+    <script type="module" src="js/social.js?v=4"></script>
+    <script type="module" src="js/app.js?v=4"></script>
 </body>
 </html>

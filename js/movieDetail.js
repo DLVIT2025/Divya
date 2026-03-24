@@ -1,4 +1,4 @@
-import { openSeatSelection } from './seats.js';
+import { openTheatreSelection } from './theatres.js';
 
 let activeMovie = null;
 
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activeMovie) {
             const movieToBook = activeMovie;
             closeMovieDetail();
-            openSeatSelection(movieToBook);
+            openTheatreSelection(movieToBook);  // -> Theatre -> People -> Seats
         }
     });
 });

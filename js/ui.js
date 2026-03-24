@@ -15,7 +15,16 @@ export const showToast = (message, type = 'info') => {
 
 export const navigateTo = (sectionId) => {
     document.querySelectorAll('.page-section').forEach(sec => sec.classList.add('hidden'));
-    document.getElementById(sectionId).classList.remove('hidden');
+    const targetEl = document.getElementById(sectionId);
+    targetEl.classList.remove('hidden');
+    
+    const container = targetEl.querySelector('.container');
+    if(container) {
+        container.classList.remove('animate-fade-in');
+        void container.offsetWidth; // Trigger reflow for animation restart
+        container.classList.add('animate-fade-in');
+    }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
     // Update active nav link
@@ -56,12 +65,24 @@ export const initUI = () => {
     document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 
     // Navigation setup
+    const navLinksMenu = document.getElementById('nav-links-menu');
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    
+    if (hamburgerBtn && navLinksMenu) {
+        hamburgerBtn.addEventListener('click', () => {
+            navLinksMenu.classList.toggle('active');
+        });
+    }
+
     document.querySelectorAll('.nav-link, [data-target]').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const target = link.dataset.target;
             if (target) {
                 navigateTo(target);
+                if (navLinksMenu && link.classList.contains('nav-link')) {
+                    navLinksMenu.classList.remove('active');
+                }
             }
         });
     });

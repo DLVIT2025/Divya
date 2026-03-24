@@ -24,19 +24,32 @@ export const initAuth = () => {
     // Forms
     const loginForm = document.getElementById('login-form');
     const signupForm = document.getElementById('signup-form');
-    const logoutBtn = document.getElementById('logout-btn');
+    const logoutBtn = document.getElementById('nav-logout-btn');
     const forgotPwLink = document.getElementById('forgot-password-link');
 
     if(loginForm) {
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim().toLowerCase();
             const constPw = document.getElementById('login-password').value;
             
-            // Email regex
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                return showToast('Please enter a valid email address.', 'error');
+            // Try API first
+            try {
+                const res = await fetch('http://localhost:3001/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password: constPw })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    loginSession(data.user, data.token);
+                    showToast(`Welcome back, ${data.user.name}!`, 'success');
+                    loginForm.reset();
+                    navigateTo('home-section');
+                    return;
+                }
+            } catch (err) {
+                console.warn('Backend offline, using local auth');
             }
 
             const users = getUsers();
@@ -51,18 +64,37 @@ export const initAuth = () => {
 
             // Success
             loginSession(user);
-            showToast(`Welcome back, ${user.name}!`, 'success');
+            showToast(`Welcome back, ${user.name}! (Local)`, 'success');
             loginForm.reset();
             navigateTo('home-section');
         });
     }
 
     if(signupForm) {
-        signupForm.addEventListener('submit', (e) => {
+        signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('signup-name').value.trim();
             const email = document.getElementById('signup-email').value.trim().toLowerCase();
             const password = document.getElementById('signup-password').value;
+
+            // Try API first
+            try {
+                const res = await fetch('http://localhost:3001/api/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    loginSession(data.user, data.token);
+                    showToast(`Account created! Welcome, ${data.user.name}.`, 'success');
+                    signupForm.reset();
+                    navigateTo('home-section');
+                    return;
+                }
+            } catch (err) {
+                console.warn('Backend offline, using local signup');
+            }
 
             // Simple validations
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -91,14 +123,15 @@ export const initAuth = () => {
             saveUsers(users);
 
             loginSession(newUser);
-            showToast(`Account created! Welcome to CineTicket, ${name}.`, 'success');
+            showToast(`Account created! (Local) Welcome, ${name}.`, 'success');
             signupForm.reset();
             navigateTo('home-section');
         });
     }
 
     if(logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             currentUser = null;
             localStorage.removeItem('ct_session');
             updateNavState();
@@ -133,10 +166,18 @@ export const initAuth = () => {
     }
 };
 
-const loginSession = (user) => {
+const loginSession = (user, token = null) => {
     currentUser = user;
     localStorage.setItem('ct_session', user.email);
+    if (token) {
+        localStorage.setItem('ct_token', token);
+    }
     updateNavState();
+};
+
+export const getAuthHeaders = () => {
+    const token = localStorage.getItem('ct_token');
+    return token ? { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' };
 };
 
 const updateNavState = () => {

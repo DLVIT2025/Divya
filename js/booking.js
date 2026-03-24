@@ -75,10 +75,16 @@ const renderTicketUI = (ticket) => {
     generateQR(`${ticket.bookingId}|${ticket.movieTitle}|${ticket.seats.join(',')}|${ticket.grandTotal}`);
 };
 
-// Expose rendering function for "My Tickets" section
-export const renderMyTickets = () => {
+// Expose rendering function for "My Account" section
+export const renderMyAccount = () => {
     const user = getCurrentUser();
     if (!user) return;
+
+    // Populate profile
+    const nameEl = document.getElementById('account-name');
+    const emailEl = document.getElementById('account-email');
+    if (nameEl) nameEl.textContent = user.name;
+    if (emailEl) emailEl.textContent = user.email;
 
     const grid = document.getElementById('my-tickets-grid');
     const bookings = getBookings().filter(b => b.userId === user.email);
@@ -89,7 +95,7 @@ export const renderMyTickets = () => {
     }
 
     grid.innerHTML = bookings.reverse().map(b => `
-        <div class="mini-ticket glass-panel cursor-pointer" onclick="viewTicket('${b.bookingId}')">
+        <div class="mini-ticket glass-panel cursor-pointer" onclick="window.viewTicket('${b.bookingId}')">
             <h4>${b.movieTitle}</h4>
             <p class="text-sm text-muted">Date: ${b.date} | ID: ${b.bookingId}</p>
             <p class="mt-2"><b>Seats:</b> ${b.seats.join(', ')}</p>
@@ -106,11 +112,14 @@ window.viewTicket = (bookingId) => {
     }
 };
 
-// Listen for entering "my tickets" section
+// Listen for entering "my account" section
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.nav-link[data-target="my-tickets-section"]').addEventListener('click', () => {
-        renderMyTickets();
-    });
+    const accLink = document.querySelector('.nav-link[data-target="my-account-section"]');
+    if (accLink) {
+        accLink.addEventListener('click', () => {
+            renderMyAccount();
+        });
+    }
 });
 
 // HTML2Canvas Ticket Download Exporter
